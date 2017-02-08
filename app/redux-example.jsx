@@ -2,6 +2,17 @@ var redux = require('redux');
 
 console.log('Starting redux example.');
 
+// another way to add a default is the following
+var reducer = (state = {name: 'Anonymous'}, action) => {
+// var reducer = (state, action) => {
+//   state = state || {name: 'Anonymous'};
+  return state;
+};
+var store = redux.createStore(reducer);
+
+var currentState = store.getState();
+console.log('currentState', currentState);
+
 //
 // // Pure function
 // function add(a,b) {
