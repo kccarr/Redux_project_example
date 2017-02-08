@@ -20,19 +20,31 @@ var reducer = (state = stateDefault, action) => {
   }
 };
 
-var store = redux.createStore(reducer);
+var store = redux.createStore(reducer, redux.compose(
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+));
 
-var currentState = store.getState();
+// Subscribe to CHANGE_SEARCH_TEXT
+store.subscribe(() => {
+  var state = store.getState();
 
-console.log('currentState', currentState);
+  document.getElementById('app').innerHTML = state.searchText;
+});
 
-var action = {
-  type: "CHANGE_SEARCH_TEXT",
-  searchText: "dog"
-};
+console.log('currentState', store.getState());
 
-store.dispatch(action);
-console.log("SearchText should be dog", store.getState());
 
-// general rule of thumb for application names is thumbnail-transitio
-// that they are uppercase and use _ for in between spaces
+store.dispatch({
+  type: 'CHANGE_SEARCH_TEXT',
+  searchText: 'work'
+});
+
+store.dispatch({
+  type: 'CHANGE_SEARCH_TEXT',
+  searchText: 'dog'
+});
+
+store.dispatch({
+  type: 'CHANGE_SEARCH_TEXT',
+  searchText: 'Something else'
+});
